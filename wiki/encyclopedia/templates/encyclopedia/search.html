@@ -15,7 +15,8 @@ Search
 </ul>
 {% else %}
 Sorry there were no entries matched your search.<br>
-Why not try the <a href="{% url 'index' %}">homepage</a>?
+Why not try the <a href="{% url 'index' %}">homepage</a>?<br>
+Or maybe would you like to <a href="{% url 'new_page' %}">Create a new page?</a>
 {% endif %}
 
 

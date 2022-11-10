@@ -30,3 +30,7 @@ def search(request):
         if keyword in entry:
             entries.append(entry)
     return render(request, "encyclopedia/search.html", {"entries": entries})
+
+
+def new_page(request):
+    return render(request, "encyclopedia/new_page.html")

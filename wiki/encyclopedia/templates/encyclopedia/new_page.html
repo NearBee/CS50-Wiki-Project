@@ -1,0 +1,18 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+Create New Page
+{% endblock %}
+
+{% block body %}
+<h1>Create a new page</h1><br>
+Form will go here<br><br>
+<form>
+    <label for="new_page_title"> Title of new page:</label>
+    <input type="text" name="new_page_title" placeholder="Example Title"><br><br>
+
+    <label for="new_page_body">Body contents:</label><br>
+    <input type="text" name="new_page_body" placeholder="Put some content information here"
+        style="padding-left: 15px; width: 1000px; height: 500px; text-align: center;">
+</form>
+{% endblock %}
