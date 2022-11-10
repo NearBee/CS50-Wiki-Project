@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from . import util
 
@@ -18,3 +18,15 @@ def entry(request, title):
         template,
         {"title": title, "contents": page_contents},
     )
+
+
+def search(request):
+    keyword = request.GET.get("q")
+    if keyword in util.list_entries():
+        return redirect("entry", title=keyword)
+
+    entries = []
+    for entry in util.list_entries():
+        if keyword in entry:
+            entries.append(entry)
+    return render(request, "encyclopedia/search.html", {"entries": entries})
