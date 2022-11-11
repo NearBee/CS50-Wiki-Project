@@ -1,5 +1,4 @@
 from django import forms
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 from . import util
@@ -39,9 +38,6 @@ class new_page_title_form(forms.Form):
         label="Title:",
         min_length=1,
     )
-
-
-class new_page_body_form(forms.Form):
     body = forms.CharField(
         label="Body contents:",
         min_length=1,
@@ -51,21 +47,24 @@ class new_page_body_form(forms.Form):
 def new_page(request):
     if request.method == "POST":
         title_form = new_page_title_form(request.POST)
-        body_form = new_page_body_form(request.POST)
-        if title_form.is_valid() and body_form.is_valid():
+        if title_form.is_valid():
             title = title_form.cleaned_data["title"]
-            body = body_form.cleaned_data["body"]
+            body = title_form.cleaned_data["body"]
             if title in util.list_entries():
-                return redirect("entry", title=title)
+                title_form.add_error("title", "This entry already exists.")
+                return render(
+                    request,
+                    "encyclopedia/new_page.html",
+                    {"title": title_form},
+                )
             else:
                 util.save_entry(title, body)
                 return redirect("entry", title=title)
 
     else:
         title_form = new_page_title_form()
-        body_form = new_page_body_form()
         return render(
             request,
             "encyclopedia/new_page.html",
-            {"title": title_form, "body": body_form},
+            {"title": title_form},
         )
