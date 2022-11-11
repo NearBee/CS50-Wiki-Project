@@ -55,8 +55,10 @@ def new_page(request):
         if title_form.is_valid() and body_form.is_valid():
             title = title_form.cleaned_data["title"]
             body = body_form.cleaned_data["body"]
-            util.save_entry(title, body)
             if title in util.list_entries():
+                return redirect("entry", title=title)
+            else:
+                util.save_entry(title, body)
                 return redirect("entry", title=title)
 
     else:
