@@ -1,7 +1,7 @@
 from django import forms
 
 
-class new_page_title_form(forms.Form):
+class new_page_form(forms.Form):
     title = forms.CharField(
         label="Title:",
         min_length=1,

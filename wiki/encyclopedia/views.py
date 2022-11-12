@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 
-from . import util, forms
+from . import forms, util
 
 
 def index(request):
@@ -34,7 +34,7 @@ def search(request):
 
 def new_page(request):
     if request.method == "POST":
-        title_form = forms.new_page_title_form(request.POST)
+        title_form = forms.new_page_form(request.POST)
         if title_form.is_valid():
             title = title_form.cleaned_data["title"]
             body = title_form.cleaned_data["body"]
@@ -50,9 +50,13 @@ def new_page(request):
                 return redirect("entry", title=title)
 
     else:
-        title_form = forms.new_page_title_form()
+        title_form = forms.new_page_form()
         return render(
             request,
             "encyclopedia/new_page.html",
             {"title": title_form},
         )
+
+
+def edit_page(request):
+    return NotImplemented
