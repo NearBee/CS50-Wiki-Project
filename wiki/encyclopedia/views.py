@@ -59,4 +59,10 @@ def new_page(request):
 
 
 def edit_page(request):
-    return NotImplemented
+    if request.method == "GET":
+        form_data = request.session.pop("new_page_form", {})
+        title = form_data.get("title")
+        body = form_data.get("body")
+        title_form = forms.new_page_form(initial={"title": title, "body": body})
+
+        return render(request, "encyclopedia/edit_page.html", {"title": title_form})
