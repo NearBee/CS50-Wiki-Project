@@ -81,7 +81,6 @@ def edit_page(request, title):
 
     else:
         if request.method == "POST":
-            print("We are POST")
             form = forms.entry_form(request.POST)
 
             if form.is_valid():
