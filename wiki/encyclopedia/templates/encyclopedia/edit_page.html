@@ -8,8 +8,7 @@ Edit Page
 <h1>Edit Page</h1><br>
 <form method="post">
     {% csrf_token %}
-    {{ title }}
-    {{ body }}<br><br>
+    {{ form }}
 
     <button type="sumbit" name="edit_page_confirmation">Submit</button>
 </form>

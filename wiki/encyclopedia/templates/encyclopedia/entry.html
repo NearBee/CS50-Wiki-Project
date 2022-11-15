@@ -5,6 +5,6 @@
 {% endblock %}
 
 {% block body %}
-<a action="submit" method="get" href="{% url 'edit_page' %}">Edit Page</a>
+<a href="{% url 'edit_page' title %}">Edit Page</a>
 {{ contents }}
 {% endblock %}

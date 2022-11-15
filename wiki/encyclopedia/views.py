@@ -34,35 +34,65 @@ def search(request):
 
 def new_page(request):
     if request.method == "POST":
-        title_form = forms.new_page_form(request.POST)
-        if title_form.is_valid():
-            title = title_form.cleaned_data["title"]
-            body = title_form.cleaned_data["body"]
-            if title in util.list_entries():
-                title_form.add_error("title", "This entry already exists.")
-                return render(
-                    request,
-                    "encyclopedia/new_page.html",
-                    {"title": title_form},
-                )
-            else:
+        form = forms.entry_form(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            if not title in util.list_entries():
+                body = form.cleaned_data["body"]
                 util.save_entry(title, body)
+
                 return redirect("entry", title=title)
 
-    else:
-        title_form = forms.new_page_form()
+            form.add_error("title", "This entry already exists.")
+
+        else:
+            if not form.cleaned_data["title"]:
+                form.add_error("title", "Title is required.")
+
+            if not form.cleaned_data["body"]:
+                form.add_error("body", "Body is required.")
+
         return render(
             request,
             "encyclopedia/new_page.html",
-            {"title": title_form},
+            {"form": form},
+        )
+
+    else:
+        form = forms.entry_form()
+
+        return render(
+            request,
+            "encyclopedia/new_page.html",
+            {"form": form},
         )
 
 
-def edit_page(request):
-    if request.method == "GET":
-        form_data = request.session.pop("new_page_form", {})
-        title = form_data.get("title")
-        body = form_data.get("body")
-        title_form = forms.new_page_form(initial={"title": title, "body": body})
+def edit_page(request, title):
+    page_contents = util.get_entry(title)
+    form = forms.entry_form(initial={"title": title, "body": page_contents})
 
-        return render(request, "encyclopedia/edit_page.html", {"title": title_form})
+    if not page_contents:
+        return render(
+            request,
+            "encyclopedia/entry_error.html",
+            {"title": title},
+        )
+
+    else:
+        if request == "POST":
+            print("We are POST")
+            form = forms.entry_form(request.POST)
+
+            if form.is_valid():
+                page_title = forms.entry_form.cleaned_data["title"]
+                body = forms.entry_form.cleaned_data["body"]
+                util.save_entry(page_title, body)
+
+                return redirect("entry", title=title)
+
+            else:
+                # blows up
+                pass
+    return render(request, "encyclopedia/edit_page.html", {"form": form})
+    # TODO:FINISH THIS EDIT PAGE VIEW
