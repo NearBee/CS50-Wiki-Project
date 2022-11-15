@@ -80,13 +80,13 @@ def edit_page(request, title):
         )
 
     else:
-        if request == "POST":
+        if request.method == "POST":
             print("We are POST")
             form = forms.entry_form(request.POST)
 
             if form.is_valid():
-                page_title = forms.entry_form.cleaned_data["title"]
-                body = forms.entry_form.cleaned_data["body"]
+                page_title = form.cleaned_data["title"]
+                body = form.cleaned_data["body"]
                 util.save_entry(page_title, body)
 
                 return redirect("entry", title=title)
@@ -95,4 +95,3 @@ def edit_page(request, title):
                 # blows up
                 pass
     return render(request, "encyclopedia/edit_page.html", {"form": form})
-    # TODO:FINISH THIS EDIT PAGE VIEW
