@@ -8,8 +8,7 @@ Create New Page
 <h1>Create a new page</h1><br>
 <form method="post">
     {% csrf_token %}
-    {{ title }}
-    {{ body }}<br><br>
+    {{ form }}
 
     <button type="sumbit" name="new_page_confirmation">Create Page</button>
 </form>
