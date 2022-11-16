@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+import markdown2
 import random
 
 from . import forms, util
@@ -10,6 +11,7 @@ def index(request):
 
 def entry(request, title):
     page_contents = util.get_entry(title)
+    html = markdown2.markdown(page_contents)
     if not page_contents:
         template = "encyclopedia/entry_error.html"
     else:
@@ -17,7 +19,7 @@ def entry(request, title):
     return render(
         request,
         template,
-        {"title": title, "contents": page_contents},
+        {"title": title, "contents": html},
     )
 
 
@@ -108,7 +110,7 @@ def edit_page(request, title):
 
 def random_page(request):
     random_page = random.choice(util.list_entries())
-    page_contents = util.get_entry(random_page)
+    page_contents = markdown2.markdown(util.get_entry(random_page))
     template = "encyclopedia/entry.html"
 
     return render(
