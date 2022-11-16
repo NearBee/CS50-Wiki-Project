@@ -7,7 +7,9 @@ class entry_form(forms.Form):
         min_length=1,
     )
     body = forms.CharField(
-        label="Body contents: ", min_length=1, widget=forms.Textarea()
+        label="Body contents: ",
+        min_length=1,
+        widget=forms.Textarea(),
     )
 
 
