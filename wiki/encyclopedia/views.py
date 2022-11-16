@@ -106,21 +106,13 @@ def edit_page(request, title):
     return render(request, "encyclopedia/edit_page.html", {"form": form})
 
 
-def random_page(request, title):
-    random_page = []
-    for entry in util.list_entries():
-        if title in entry:
-            random_page.append(entry)
-            return print(entry)
-    # TODO:Finish random_page integration
+def random_page(request):
+    random_page = random.choice(util.list_entries())
+    page_contents = util.get_entry(random_page)
+    template = "encyclopedia/entry.html"
 
-    # page_contents = util.get_entry(random.choice(random_page))
-    # if not page_contents:
-    #     template = "encyclopedia/entry_error.html"
-    # else:
-    #     template = "encyclopedia/entry.html"
-    # return render(
-    #     request,
-    #     template,
-    #     {"title": title, "contents": page_contents},
-    # )
+    return render(
+        request,
+        template,
+        {"title": random_page, "contents": page_contents},
+    )
