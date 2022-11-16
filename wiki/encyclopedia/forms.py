@@ -7,9 +7,7 @@ class entry_form(forms.Form):
         min_length=1,
     )
     body = forms.CharField(
-        label="Body contents: ",
-        min_length=1,
-        help_text="Please begin with '# ', then another space '_' and the rest of the body contents.",
+        label="Body contents: ", min_length=1, widget=forms.Textarea()
     )
 
 
@@ -22,5 +20,5 @@ class edit_form(forms.Form):
     body = forms.CharField(
         label="Body Content",
         min_length=1,
-        help_text="Please begin with '# ', then another space '_' and the rest of the body contents.",
+        widget=forms.Textarea(),
     )
