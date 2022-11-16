@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+import random
 
 from . import forms, util
 
@@ -69,8 +70,31 @@ def new_page(request):
 
 
 def edit_page(request, title):
+    if request.method == "POST":
+        form = forms.edit_form(request.POST)
+
+        if form.is_valid():
+            page_title = form.cleaned_data["title"]
+            body = form.cleaned_data["body"]
+            util.save_entry(page_title, body)
+
+            return redirect("entry", title=title)
+
+        else:
+            if not form.cleaned_data["title"]:
+                form.add_error("title", "Title is required.")
+
+            if not form.cleaned_data["body"]:
+                form.add_error("body", "Body is required.")
+
+            return render(
+                request,
+                "encyclopedia/edit_page.html",
+                {"form": form},
+            )
+
     page_contents = util.get_entry(title)
-    form = forms.entry_form(initial={"title": title, "body": page_contents})
+    form = forms.edit_form(initial={"title": title, "body": page_contents})
 
     if not page_contents:
         return render(
@@ -79,18 +103,24 @@ def edit_page(request, title):
             {"title": title},
         )
 
-    else:
-        if request.method == "POST":
-            form = forms.entry_form(request.POST)
-
-            if form.is_valid():
-                page_title = form.cleaned_data["title"]
-                body = form.cleaned_data["body"]
-                util.save_entry(page_title, body)
-
-                return redirect("entry", title=title)
-
-            else:
-                # blows up
-                pass
     return render(request, "encyclopedia/edit_page.html", {"form": form})
+
+
+def random_page(request, title):
+    random_page = []
+    for entry in util.list_entries():
+        if title in entry:
+            random_page.append(entry)
+            return print(entry)
+    # TODO:Finish random_page integration
+
+    # page_contents = util.get_entry(random.choice(random_page))
+    # if not page_contents:
+    #     template = "encyclopedia/entry_error.html"
+    # else:
+    #     template = "encyclopedia/entry.html"
+    # return render(
+    #     request,
+    #     template,
+    #     {"title": title, "contents": page_contents},
+    # )
