@@ -8,9 +8,11 @@ Edit Page
 <h1>Edit Page</h1><br>
 <form method="post">
     {% csrf_token %}
+    <label for="form_title">Title:</label>
     <div class="container-fluid">{{ form.title }}</div>
+    <label for="form_body">Body content:</label>
     <div class="container-fluid">{{ form.body }}</div>
 
-    <button class="col-md-auto offset-md-10 me-auto" type="sumbit" name="edit_page_confirmation">Submit</button>
+    <button class="col-md-auto offset-md-9 me-auto" type="sumbit" name="edit_page_confirmation">Submit</button>
 </form>
 {% endblock %}
