@@ -8,12 +8,8 @@ Create New Page
 <h1>Create a new page</h1><br>
 <form method="post">
     {% csrf_token %}
-    {{ form }}
-    <label for="form_title">Title:</label>
-    <div class="form-control">{{ form.title }}</div>
-    <label for="form_body">Body contents:</label>
-    <div class="container-fluid">{{ form.body }}</div>
+    <div class="col-md-10">{{ form }}</div>
 
-    <button class="col-md-auto offset-md-9 me-auto" type="sumbit" name="new_page_confirmation">Create Page</button>
+    <button class="offset-md-10 me-auto" type="sumbit" name="new_page_confirmation">Create Page</button>
 </form>
 {% endblock %}
