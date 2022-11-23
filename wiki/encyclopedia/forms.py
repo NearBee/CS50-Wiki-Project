@@ -19,7 +19,7 @@ class entry_form(forms.Form):
             attrs={
                 "placeholder": "#Title"
                 + "\n\n\n"
-                + "Information about the Title goes here.",
+                + "Information about the entry goes here.",
                 "class": "form-control col-lg-10",
             }
         ),
@@ -45,7 +45,7 @@ class edit_form(forms.Form):
             attrs={
                 "placeholder": "#Title"
                 + "\n\n\n"
-                + "Information about the Title goes here.",
+                + "Information about the entry goes here.",
                 "class": "form-control",
             }
         ),
