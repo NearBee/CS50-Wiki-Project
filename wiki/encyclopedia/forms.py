@@ -5,7 +5,12 @@ class entry_form(forms.Form):
     title = forms.CharField(
         label="Title",
         min_length=1,
-        widget=forms.TextInput(attrs={"placeholder": "Entry Title"}),
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Entry Title",
+                "class": "form-control",
+            }
+        ),
     )
     body = forms.CharField(
         label="Body contents",
@@ -14,7 +19,8 @@ class entry_form(forms.Form):
             attrs={
                 "placeholder": "#Title"
                 + "\n\n\n"
-                + "Information about the Title goes here."
+                + "Information about the Title goes here.",
+                "class": "form-control col-lg-10",
             }
         ),
     )
@@ -24,7 +30,13 @@ class edit_form(forms.Form):
     title = forms.CharField(
         label="Title",
         min_length=1,
-        widget=forms.TextInput(attrs={"readonly": "readonly", "placeholder": "#Title"}),
+        widget=forms.TextInput(
+            attrs={
+                "readonly": "readonly",
+                "placeholder": "#Title",
+                "class": "form-control",
+            }
+        ),
     )
     body = forms.CharField(
         label="Body Content",
@@ -33,7 +45,8 @@ class edit_form(forms.Form):
             attrs={
                 "placeholder": "#Title"
                 + "\n\n\n"
-                + "Information about the Title goes here."
+                + "Information about the Title goes here.",
+                "class": "form-control",
             }
         ),
     )
