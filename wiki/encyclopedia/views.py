@@ -24,13 +24,13 @@ def entry(request, title):
 
 
 def search(request):
-    keyword = request.GET.get("q")
+    keyword = request.GET.get("q").capitalize()
     if keyword in util.list_entries():
         return redirect("entry", title=keyword)
 
     entries = []
     for entry in util.list_entries():
-        if keyword in entry:
+        if keyword.lower() in entry.lower():
             entries.append(entry)
     return render(request, "encyclopedia/search.html", {"entries": entries})
 
@@ -47,7 +47,6 @@ def new_page(request):
                 return redirect("entry", title=title)
 
             form.add_error("title", "This entry already exists.")
-
         else:
             if not form.cleaned_data["title"]:
                 form.add_error("title", "Title is required.")
